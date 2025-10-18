@@ -80,8 +80,8 @@ export class ReminderService {
 
   // Get reminders with filters
   static async getReminders(
-    road?: string,
-    limitCount: number = 20
+    limitCount: number = 20,
+    road?: string
   ): Promise<ApiResponse<Reminder[]>> {
     try {
       let q = query(
@@ -180,8 +180,8 @@ export class ReminderService {
 
   // Listen to reminders in real-time
   static subscribeToReminders(
-    road?: string,
-    callback: (reminders: Reminder[]) => void
+    callback: (reminders: Reminder[]) => void,
+    road?: string
   ): () => void {
     let q = query(
       collection(db, "reminders"),

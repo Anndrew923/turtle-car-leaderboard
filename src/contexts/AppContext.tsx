@@ -106,7 +106,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const loadReminders = async (road?: string) => {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
-      const response = await ReminderService.getReminders(road);
+      const response = await ReminderService.getReminders(20, road);
       if (response.success && response.data) {
         dispatch({ type: "SET_REMINDERS", payload: response.data });
       } else {
