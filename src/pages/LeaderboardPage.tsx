@@ -9,7 +9,8 @@ import {
 } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
-import { LeaderboardItem } from "@/types";
+// LeaderboardItem type will be used in future implementations
+// import { LeaderboardItem } from "@/types";
 
 const LeaderboardPage: React.FC = () => {
   const { state, loadLeaderboard } = useApp();

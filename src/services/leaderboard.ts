@@ -74,6 +74,11 @@ export class LeaderboardService {
           startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       }
 
+      // TODO: Use startDate for actual filtering in future implementation
+      console.log(
+        `Getting leaderboard for period: ${period}, from: ${startDate.toISOString()}`
+      );
+
       // In a real implementation, you'd query reminders with date filters
       // and aggregate the data. For now, we'll use the general leaderboard
       return this.getLeaderboard(limitCount);

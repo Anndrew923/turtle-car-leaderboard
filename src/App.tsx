@@ -1,4 +1,4 @@
-import React from "react";
+// React import not needed in React 17+ with new JSX transform
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppProvider } from "@/contexts/AppContext";
