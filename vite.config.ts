@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,6 +10,10 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        globIgnores: ["**/node_modules/**/*"],
+      },
       manifest: {
         name: "龜車排行榜",
         short_name: "龜車榜",
@@ -40,11 +45,38 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@/components": path.resolve(__dirname, "./src/components"),
+      "@/pages": path.resolve(__dirname, "./src/pages"),
+      "@/services": path.resolve(__dirname, "./src/services"),
+      "@/hooks": path.resolve(__dirname, "./src/hooks"),
+      "@/utils": path.resolve(__dirname, "./src/utils"),
+      "@/types": path.resolve(__dirname, "./src/types"),
+      "@/assets": path.resolve(__dirname, "./src/assets"),
+    },
+  },
   server: {
     port: 3000,
     host: true,
   },
   build: {
     outDir: "dist",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          firebase: [
+            "firebase/app",
+            "firebase/auth",
+            "firebase/firestore",
+            "firebase/storage",
+          ],
+          maps: ["@googlemaps/js-api-loader"],
+        },
+      },
+    },
   },
 });
