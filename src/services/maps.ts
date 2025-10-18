@@ -63,6 +63,7 @@ export class MapsService {
           });
         },
         (error) => {
+          console.error("Geolocation error:", error);
           reject(new Error("無法獲取位置資訊"));
         },
         {

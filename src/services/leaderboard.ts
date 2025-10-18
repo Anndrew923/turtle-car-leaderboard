@@ -97,7 +97,8 @@ export class LeaderboardService {
   > {
     try {
       // This would typically involve complex queries
-      // For now, we'll return mock data
+      // For now, we'll return mock data based on the road
+      console.log(`Getting stats for road: ${road}`);
       const stats = {
         totalReminders: Math.floor(Math.random() * 100) + 10,
         todayReminders: Math.floor(Math.random() * 10) + 1,
