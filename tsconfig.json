@@ -20,6 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* Types */
+    "types": ["@types/google.maps"],
+
     /* Path mapping */
     "baseUrl": ".",
     "paths": {

@@ -1,3 +1,4 @@
+/// <reference types="@types/google.maps" />
 import { Loader } from "@googlemaps/js-api-loader";
 
 export class MapsService {

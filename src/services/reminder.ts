@@ -134,6 +134,8 @@ export class ReminderService {
       const reminderRef = doc(db, "reminders", reminderId);
       // Note: In a real app, you'd want to track individual votes to prevent duplicate voting
       // For now, we'll just increment the vote count
+      // TODO: Implement proper vote tracking using userId
+      console.log(`User ${userId} voted ${voteType} on reminder ${reminderId}`);
       await updateDoc(reminderRef, {
         [`votes.${voteType}`]: 1, // This should be incremented, not set to 1
         updatedAt: Timestamp.now(),
@@ -159,6 +161,8 @@ export class ReminderService {
   ): Promise<ApiResponse<void>> {
     try {
       const reminderRef = doc(db, "reminders", reminderId);
+      // TODO: Add authorization check to ensure user can delete this reminder
+      console.log(`User ${userId} deleting reminder ${reminderId}`);
       await deleteDoc(reminderRef);
 
       return {
