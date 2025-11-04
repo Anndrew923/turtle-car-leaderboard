@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useApp } from "@/contexts/AppContext";
-import { ReminderFormData, RoadBlock } from "@/types";
+import { ReminderFormData } from "@/types";
 import { ReminderService } from "@/services/reminder";
 import PlateNumberInput from "@/components/Reminder/PlateNumberInput";
 import RoadBlockSelector from "@/components/Reminder/RoadBlockSelector";

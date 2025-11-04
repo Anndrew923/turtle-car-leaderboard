@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, Plus, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
-import { useAuth } from "@/contexts/AuthContext";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import Button from "@/components/UI/Button";
 
 const HomePage: React.FC = () => {
   const { state, loadReminders, loadLeaderboard } = useApp();
-  const { user } = useAuth();
   const [stats, setStats] = useState({
     totalReminders: 0,
     todayReminders: 0,
@@ -138,7 +136,7 @@ const HomePage: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-gray-900 mb-4 line-clamp-2">
-                    {reminder.description}
+                    {reminder.speedDifference || "無速度差資訊"}
                   </p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4 text-sm text-gray-500">

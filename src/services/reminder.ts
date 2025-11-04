@@ -12,8 +12,7 @@ import {
   onSnapshot,
   Timestamp,
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "./firebase";
+import { db } from "./firebase";
 import {
   Reminder,
   ReminderFormData,
@@ -25,35 +24,6 @@ import { maskPlateNumber, isValidPlateFormat } from "@/utils/plateNumber";
 import { isValidRoadBlock } from "@/data/roadBlocks";
 
 export class ReminderService {
-  // 檢查 Firebase 是否已初始化
-  private static checkFirebase(): void {
-    if (!db || !storage) {
-      throw new Error(
-        "Firebase 未初始化。請檢查 .env 文件並確保 Firebase 配置正確。"
-      );
-    }
-  }
-
-  // 敏感詞列表（可擴充）
-  private static readonly SENSITIVE_WORDS = [
-    "幹",
-    "操",
-    "死",
-    "殺",
-    "白癡",
-    "智障",
-    "垃圾",
-    "廢物",
-    // 可以添加更多敏感詞
-  ];
-
-  // 檢查敏感詞
-  private static checkSensitiveWords(content: string): boolean {
-    const lowerContent = content.toLowerCase();
-    return this.SENSITIVE_WORDS.some((word) =>
-      lowerContent.includes(word.toLowerCase())
-    );
-  }
 
   // 檢查重複提交（短時間內相同用戶）
   private static async checkDuplicateSubmission(
@@ -142,7 +112,7 @@ export class ReminderService {
     reminderData: ReminderFormData,
     userId: string
   ): Promise<ApiResponse<Reminder>> {
-    if (!db || !storage) {
+    if (!db) {
       return {
         success: false,
         error: "Firebase 未初始化。請檢查 .env 文件並確保 Firebase 配置正確。",
