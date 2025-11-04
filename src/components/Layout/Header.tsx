@@ -1,18 +1,10 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { MapPin, BarChart3, MessageCircle, User, Menu } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MapPin, User } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Header: React.FC = () => {
   const { user } = useAuth();
-  const location = useLocation();
-
-  const navItems = [
-    { path: "/", label: "首頁", icon: MapPin },
-    { path: "/leaderboard", label: "排行榜", icon: BarChart3 },
-    { path: "/community", label: "社群", icon: MessageCircle },
-    { path: "/profile", label: "個人", icon: User },
-  ];
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
@@ -29,28 +21,6 @@ const Header: React.FC = () => {
               </span>
             </Link>
           </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive
-                      ? "text-primary-600 bg-primary-50"
-                      : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
@@ -79,37 +49,8 @@ const Header: React.FC = () => {
                 </Link>
               </div>
             )}
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-gray-50">
-              <Menu className="w-5 h-5" />
-            </button>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="md:hidden border-t border-gray-200">
-        <nav className="px-4 py-2 space-y-1">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive
-                    ? "text-primary-600 bg-primary-50"
-                    : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
       </div>
     </header>
   );

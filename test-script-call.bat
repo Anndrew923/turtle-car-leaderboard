@@ -52,3 +52,4 @@ echo   4. 檢查 Chrome 是否正常開啟
 echo   5. 檢查腳本執行完畢後是否返回主選單
 echo.
 pause
+

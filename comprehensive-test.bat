@@ -172,3 +172,4 @@ echo 2. 在 Chrome 中測試應用程式功能
 echo 3. 檢查開發者工具是否正常開啟
 echo.
 pause
+

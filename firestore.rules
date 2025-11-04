@@ -7,17 +7,51 @@ service cloud.firestore {
       allow read: if request.auth != null; // Allow reading other users for public info
     }
 
+    // Helper function: Check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Helper function: Check if user is moderator
+    function isModerator() {
+      return request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'moderator'];
+    }
+
     // Reminders collection
     match /reminders/{reminderId} {
-      allow read: if true; // Public read access
+      // 讀取規則：所有人可讀取公開資料，但完整車牌號僅創建者可見
+      allow read: if true; // 公開讀取（返回時會過濾 plateNumber）
+      
+      // 創建規則：僅登入用戶可創建，且 reminderId 必須等於當前用戶 ID
       allow create: if request.auth != null && 
-        request.auth.uid == resource.data.reminderId;
-      allow update: if request.auth != null && 
-        (request.auth.uid == resource.data.reminderId || 
-         request.auth.uid in resource.data.moderators);
+        request.auth.uid == request.resource.data.reminderId &&
+        // 確保包含必要欄位
+        request.resource.data.keys().hasAll(['plateNumber', 'plateNumberMasked', 'roadBlock', 'description', 'status', 'audit']) &&
+        // 確保 plateNumber 和 plateNumberMasked 都存在
+        request.resource.data.plateNumber is string &&
+        request.resource.data.plateNumberMasked is string &&
+        // 確保狀態是允許的值
+        request.resource.data.status in ['pending', 'verified', 'disputed', 'flagged'];
+      
+      // 更新規則：僅創建者可更新，管理員可審核
+      allow update: if request.auth != null && (
+        // 創建者可以更新自己的提醒
+        (request.auth.uid == resource.data.reminderId &&
+         // 創建者不能修改稽核相關欄位
+         !request.resource.data.diff(resource.data).affectedKeys().hasAny(['audit.adminReviewed', 'audit.adminReviewedAt', 'status'])) ||
+        // 管理員可以審核
+        (isModerator() &&
+         // 管理員只能更新稽核相關欄位
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['audit.adminReviewed', 'audit.adminReviewedAt', 'status', 'updatedAt']))
+      );
+      
+      // 刪除規則：僅創建者和管理員可刪除
       allow delete: if request.auth != null && 
-        (request.auth.uid == resource.data.reminderId || 
-         request.auth.uid in resource.data.moderators);
+        (request.auth.uid == resource.data.reminderId || isModerator());
     }
 
     // Leaderboard collection

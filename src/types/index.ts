@@ -17,21 +17,25 @@ export interface Reminder {
     lat: number;
     lng: number;
   };
-  road: string;
-  direction: "north" | "south" | "east" | "west";
+  road: string; // 保留用於向後兼容
+  direction: "north" | "south" | "east" | "west"; // 保留用於向後兼容
+  roadBlock: RoadBlock; // 新增：區塊級路段
   vehicleInfo: {
     color: string;
     type: string;
-    platePartial: string; // ABC-****
+    platePartial: string; // 保留用於向後兼容
   };
-  description: string;
+  plateNumber: string; // 完整車牌（私密，僅創建者可見）
+  plateNumberMasked: string; // 屏蔽後車牌（公開，例如：A*C-1*34）
+  speedDifference: string; // 低於速限的公里數（例如："10公里"、"20公里"）
   reminderId: string;
-  status: "pending" | "verified" | "disputed";
-  images: string[];
+  status: "pending" | "verified" | "disputed" | "flagged";
+  images: string[]; // 保留欄位用於向後兼容，但不再使用
   votes: {
     up: number;
     down: number;
   };
+  audit: ReminderAudit; // 新增：稽核資訊
   createdAt: Date;
   updatedAt: Date;
 }
@@ -64,19 +68,43 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
+// Audit Result types
+export interface AuditResult {
+  passed: boolean;
+  reasons: string[];
+  autoVerified: boolean;
+  auditScore: number;
+}
+
+// Road Block types
+export interface RoadBlock {
+  city: string;
+  district: string;
+  mainRoad?: string;
+}
+
+// Reminder Audit types
+export interface ReminderAudit {
+  autoVerified: boolean;
+  autoVerifiedAt: Date | null;
+  adminReviewed: boolean;
+  adminReviewedAt: Date | null;
+  flagged: boolean;
+  flaggedReason?: string;
+  auditScore: number; // 0-100, 稽核分數
+}
+
 // Form types
 export interface ReminderFormData {
-  road: string;
-  direction: "north" | "south" | "east" | "west";
+  plateNumber: string; // 完整車牌號（例如：ABC-1234）
+  roadBlock: RoadBlock; // 區塊級路段
   vehicleColor: string;
   vehicleType: string;
-  platePartial: string;
-  description: string;
+  speedDifference: string; // 低於速限的公里數（例如："10公里"、"20公里"）
   location: {
     lat: number;
     lng: number;
   };
-  images: File[];
 }
 
 // Map types

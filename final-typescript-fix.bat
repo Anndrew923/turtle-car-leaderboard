@@ -13,3 +13,4 @@ echo Pushing to GitHub...
 git push origin main
 echo Done! Netlify should now deploy successfully.
 pause
+

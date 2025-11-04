@@ -16,3 +16,4 @@ Write-Host "Pushing to GitHub..." -ForegroundColor Green
 git push origin main
 
 Write-Host "Done! Netlify should automatically redeploy." -ForegroundColor Yellow
+

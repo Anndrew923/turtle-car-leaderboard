@@ -60,3 +60,4 @@ static async getReminders(
 ## 結果
 
 所有 TypeScript 編譯錯誤應該已經修復，Netlify 部署應該能夠成功。
+

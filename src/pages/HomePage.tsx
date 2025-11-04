@@ -173,35 +173,6 @@ const HomePage: React.FC = () => {
           )}
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-primary-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            準備好開始友善提醒了嗎？
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            加入我們的社群，與其他駕駛者一起改善交通環境。
-            記住，我們是友善提醒，不是指責。
-          </p>
-          {!user ? (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth/register">
-                <Button size="lg">立即註冊</Button>
-              </Link>
-              <Link to="/auth/login">
-                <Button variant="outline" size="lg">
-                  登入帳號
-                </Button>
-              </Link>
-            </div>
-          ) : (
-            <Link to="/reminder">
-              <Button size="lg">提交提醒</Button>
-            </Link>
-          )}
-        </div>
-      </section>
     </div>
   );
 };

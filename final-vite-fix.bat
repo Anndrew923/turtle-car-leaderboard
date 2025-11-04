@@ -20,3 +20,4 @@ echo - PWA plugin file matching warnings
 echo - Build optimization for better performance
 echo.
 pause
+

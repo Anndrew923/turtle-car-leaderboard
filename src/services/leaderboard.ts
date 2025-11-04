@@ -14,6 +14,12 @@ export class LeaderboardService {
   static async getLeaderboard(
     limitCount: number = 10
   ): Promise<ApiResponse<LeaderboardItem[]>> {
+    if (!db) {
+      return {
+        success: false,
+        error: "Firebase 未初始化。請檢查 .env 文件並確保 Firebase 配置正確。",
+      };
+    }
     try {
       const q = query(
         collection(db, "leaderboard"),
@@ -131,6 +137,11 @@ export class LeaderboardService {
   static subscribeToLeaderboard(
     callback: (leaderboard: LeaderboardItem[]) => void
   ): () => void {
+    if (!db) {
+      console.warn("Firebase 未初始化，無法訂閱排行榜");
+      callback([]);
+      return () => {};
+    }
     const q = query(
       collection(db, "leaderboard"),
       orderBy("count", "desc"),

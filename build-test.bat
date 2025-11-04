@@ -8,3 +8,4 @@ if %errorlevel% equ 0 (
     echo Build failed with error code %errorlevel%
 )
 pause
+
