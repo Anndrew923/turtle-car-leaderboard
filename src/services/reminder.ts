@@ -11,6 +11,7 @@ import {
   deleteDoc,
   onSnapshot,
   Timestamp,
+  increment,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import {
@@ -307,7 +308,7 @@ export class ReminderService {
       // TODO: Implement proper vote tracking using userId
       console.log(`User ${userId} voted ${voteType} on reminder ${reminderId}`);
       await updateDoc(reminderRef, {
-        [`votes.${voteType}`]: 1, // This should be incremented, not set to 1
+        [`votes.${voteType}`]: increment(1),
         updatedAt: Timestamp.now(),
       });
 
