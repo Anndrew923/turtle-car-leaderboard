@@ -1,0 +1,13 @@
+{
+  "name": "龜車排行榜",
+  "short_name": "龜車榜",
+  "description": "讓駕駛者互相友善提醒的社群平台",
+  "theme_color": "#3b82f6",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": []
+}
+
